@@ -29,7 +29,7 @@ class GameView(View):
                 next_question = next(question for question in questions if question.correct is None)
                 return render(request, 'quiz.html', {'game': game, 'game_question': next_question})
             except StopIteration:
-                return redirect('quiz:home')
+                return redirect('quiz:result', game_uuid=game_uuid)
 
     @staticmethod
     def post(request, game_uuid):
@@ -49,3 +49,10 @@ class GameView(View):
                     return render(request, 'quiz.html',
                                   {'game': game, 'game_question': game_question, 'answer_id': answer_id})
             return redirect('quiz:game', game_uuid=game_uuid)
+
+
+class ResultView(View):
+    @staticmethod
+    def get(request, game_uuid):
+        game = Game.objects.get(uuid=game_uuid)
+        return render(request, 'result.html', {'score': game.score_percent})

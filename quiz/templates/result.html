@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ block.super }} - Result
+{% endblock %}
+
+
+{% block body %}
+    <header class="title text-7xl text-center my-9">
+        Result
+    </header>
+    <main class="text-center flex flex-col max-w-3xl mx-auto gap-4">
+        <p>You answered</p>
+        <p class="text-8xl font-extrabold text-green-700">
+            <span id="score-display">0</span>%
+        </p>
+        <p class="mb-12">of the question correctly</p>
+        <a href="{% url 'quiz:new_game' %}"
+           class="bg-blue-500 hover:bg-blue-400 transition-all duration-75 text-lg text-white font-bold py-6 px-12 shadow-lg hover:border-blue-500 active:shadow-none rounded">Play Again</a>
+        <a href="{% url 'quiz:home' %}"
+           class="bg-blue-500 hover:bg-blue-400 transition-all duration-75 text-lg text-white font-bold py-6 px-12 shadow-lg hover:border-blue-500 active:shadow-none rounded">Close</a>
+    </main>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ score|json_script:"score" }}
+    <script>
+        let score = document.getElementById('score').textContent
+        let current = 0
+        let step = 90
+        const lerp = (start, end, t) => start * (1 - t) + end * t;
+
+        setInterval(() => {
+            if (Math.ceil(current) < score) {
+                current = lerp(current, score, 0.05)
+                document.getElementById('score-display').innerText = Math.ceil(current)
+            }
+        }, step);
+    </script>
+{% endblock scripts %}

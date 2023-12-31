@@ -39,6 +39,11 @@ class Game(models.Model):
         unfinished = self.questions.filter(gamequestions__correct=None).exists()
         return 'In Progress' if unfinished else self.questions.filter(gamequestions__correct=True).count()
 
+    @property
+    def score_percent(self):
+        unfinished = self.questions.filter(gamequestions__correct=None).exists()
+        return 0 if unfinished else self.questions.filter(gamequestions__correct=True).count() / self.questions.count() * 100
+
     def save(self, *args, **kwargs):
         super(Game, self).save(*args, **kwargs)
         if not self.questions.exists():
