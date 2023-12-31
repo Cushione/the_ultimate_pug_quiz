@@ -20,6 +20,8 @@ This project is my final work for CS50 Introduction to computer science course a
 
 - [Features](#features)
   - [Additional Features](#additional-features)
+  - [Bugs](#bugs)
+- [Files](#files)
 - [Deployment](#deployment)
 - [Credits](#credits)
   - [Used Technologies and Tools](#used-technologies-and-tools)
@@ -40,6 +42,55 @@ Features that could be implemented in the future:
 ## Bugs
 
 There are no known unfixed bugs.
+
+# Files
+
+## pug_quiz
+This module is the root Django app.
+
+### settings.py
+This files contains all the Django settings such as the list of installed apps and the database config.
+
+### urls.py
+This file contains the list of available urls in the application. It defines the url for the admin panel and includes all the urls from the the quiz app.
+
+## quiz
+This module is the app that contains all the files for the quiz application.
+
+### migrations
+This folder contains all the migration files for the database.
+
+### templates
+This folder contains the html templates for the three pages: Home, Quiz and Result.
+
+### admin.py
+This file registers the custom model in the Django admin panel where they can be created, read, updated and deleted
+
+### forms.py
+This file contains the form structure for the answer POST method. It defines a single field answer as an integer field.
+
+### models.py
+This file defines the database models of the application. It contains three models: Game, Question and Answer. It also defines the structure of the pivot table for the many-to-many relationship of the Game and Question models.
+
+### urls.py
+This file contains the urls for the quiz. It defines four urls: Homepage, New Game, Game and Result. The urls are then included in the root apps url file.
+
+### views.py
+This file defines the views or logic for the four available urls.
+
+#### HomeView
+This view only checks if a game is in progress and then renders the "home.html" template.
+
+#### start_new_game
+This method is used for both POST and GET requests. It finishes any running game and then creates a new one. Afterwards, it redirects the user to the game view
+
+#### GameView
+This view has two methods, one for GET requests and one for POST requests.
+For the GET requests, it loads the game with the uuid defined in the url and then finds the next unanswered question in that game. If the game has an unanswered question, it renders the "quiz.html" template with that question. If the game has no unanswered questions, the user is redirected to the result view.
+For the POST requests, it also loads the game defined in the url and then checks if the body of the POST request has the correct format. If the format is correct, i.e. the user sent only the id of the selected answer, the view checks if the answer is correct and updates the row in the database accordingly. Then the "quiz.html" template is rendered that shows the user if his answer was correct.
+
+#### ResultView
+This view only loads the game with the uuid defined in the url and then renders the "result.html" template that displays the achieved score for that game.
 
 # Deployment
 

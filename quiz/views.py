@@ -3,7 +3,6 @@ from django.views import View
 
 from quiz.forms import QuizForm
 from quiz.models import Game, Answer
-import random
 
 
 class HomeView(View):
