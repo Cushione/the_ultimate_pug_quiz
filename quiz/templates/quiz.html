@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ block.super }} - {{ game.uuid }}
+{% endblock %}
+
+
+{% block body %}
+    <h1 class="title text-7xl text-center my-9">{{ game_question.question.body }}</h1>
+
+    {% if game_question.correct == None %}
+        <form method="POST" class="flex flex-col max-w-3xl mx-auto gap-4">
+            {% csrf_token %}
+
+            {% for answer in game_question.question.answers.all %}
+                <div>
+                    <input type="radio" id="answer-{{ forloop.counter }}" name="answer" value="{{ answer.id }}"
+                           class="hidden peer">
+                    <label for="answer-{{ forloop.counter }}"
+                           class="bg-sky-500 hover:bg-sky-400 transition-all duration-75 text-lg text-white font-bold py-6 px-12 w-full block shadow-lg hover:border-sky-500 active:shadow-none rounded cursor-pointer peer-checked:bg-sky-700">{{ answer.body }}</label>
+                </div>
+            {% endfor %}
+            <input type="submit" value="Submit"
+                   class="bg-blue-500 hover:bg-blue-400 transition-all duration-75 text-lg text-white font-bold py-6 px-12 w-full block shadow-lg hover:border-sky-500 active:shadow-none rounded cursor-pointer">
+        </form>
+    {% else %}
+        <div class="flex flex-col max-w-3xl mx-auto gap-4">
+            {% for answer in game_question.question.answers.all %}
+                {% if answer.id == answer_id %}
+                    {% if game_question.correct %}
+                        <div class="text-lg font-bold py-6 px-12 w-full block shadow-lg rounded bg-green-500">
+                            {{ answer.body }}
+                        </div>
+                    {% else %}
+                        <div class="text-lg font-bold py-6 px-12 w-full block shadow-lg rounded bg-red-500">
+                            {{ answer.body }}
+                        </div>
+                    {% endif %}
+                {% elif answer.right %}
+                    <div class="text-lg font-bold py-6 px-12 w-full block shadow-lg rounded bg-green-500">
+                        {{ answer.body }}
+                    </div>
+                {% else %}
+                    <div class="text-lg font-bold py-6 px-12 w-full block shadow-lg rounded border-2 border-gray-700">
+                        {{ answer.body }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            {% if game_question.correct %}
+                <p>Well done!</p>
+            {% else %}
+                <p>That was not correct</p>
+            {% endif %}
+            <a href="{% url 'quiz:game' game_uuid=game.uuid %}"
+               class="bg-blue-500 hover:bg-blue-400 transition-all duration-75 text-lg text-white font-bold py-6 px-12 w-full block shadow-lg hover:border-sky-500 active:shadow-none rounded cursor-pointer">
+                Next
+            </a>
+        </div>
+    {% endif %}
+
+{% endblock %}

@@ -13,7 +13,7 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
     body = models.CharField(max_length=120)
     right = models.BooleanField(default=False)
 

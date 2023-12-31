@@ -11,8 +11,8 @@ class AnswerAdminInlineFormset(BaseInlineFormSet):
         valid = False
         for form in self.forms:
             try:
-                if form.cleaned_data and form.cleaned_data['correct'] is not None:
-                    if form.cleaned_data['correct']:
+                if form.cleaned_data and form.cleaned_data['right'] is not None:
+                    if form.cleaned_data['right']:
                         valid = True
                         break
 
