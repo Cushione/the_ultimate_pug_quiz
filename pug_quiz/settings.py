@@ -137,3 +137,7 @@ TAILWIND_APP_NAME = 'theme'
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+# Sessions
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"

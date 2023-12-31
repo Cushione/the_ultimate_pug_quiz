@@ -48,8 +48,12 @@ class GameQuestionsAdminInline(admin.TabularInline):
 @admin.register(models.Game)
 class GameAdmin(admin.ModelAdmin):
     model = models.Game
+
+    list_display = ('uuid', 'session', 'score')
+
     inlines = [GameQuestionsAdminInline]
+    readonly_fields = ['session']
     exclude = ('questions', 'uuid')
 
     def has_add_permission(self, request, obj=None):
-        return models.Question.objects.all().count() >= 10
+        return False
