@@ -1,12 +1,19 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Home - {{ block.super }}
+    {{ block.super }} - Home
 {% endblock %}
 
 
 {% block body %}
-    <header>
+    <header class="title text-7xl text-center my-9">
         The Ultimate Pug Quiz
     </header>
+    <main class="text-center">
+        <p class="text-lg mb-12">
+            Welcome to the Ultimate Pug Quiz – where curiosity meets fun! Test your knowledge, challenge yourself, and embark on
+            an exciting journey through questions that will pique your interest in this delightful quiz experience.
+        </p>
+        <a href="#" class="bg-blue-500 hover:bg-blue-400 transition-all duration-75 text-lg text-white font-bold py-6 px-12 shadow-lg hover:border-blue-500 active:shadow-none rounded">New Game</a>
+    </main>
 {% endblock %}
